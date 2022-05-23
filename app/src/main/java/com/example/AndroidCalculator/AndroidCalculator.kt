@@ -1,8 +1,12 @@
 package com.example.AndroidCalculator
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import com.example.AndroidCalculator.R
@@ -40,6 +44,10 @@ class AndroidCalculator : AppCompatActivity(), View.OnClickListener {
         val button_fac = findViewById(R.id.button_fac) as Button
         val button_c = findViewById(R.id.button_c) as Button
         val button_root = findViewById(R.id.button_root) as Button
+        val button_cos = findViewById(R.id.button_cos) as Button
+
+
+
         button0.setOnClickListener(this)
         button1.setOnClickListener(this)
         button2.setOnClickListener(this)
@@ -62,11 +70,29 @@ class AndroidCalculator : AppCompatActivity(), View.OnClickListener {
         button_fac.setOnClickListener(this)
         button_c.setOnClickListener(this)
         button_root.setOnClickListener(this)
+        button_cos.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         var et = editText.getText().toString()
         when (v?.getId()) {
+            R.id.button_cos -> if(et[0] == '-')
+            {
+                Toast.makeText(
+                    this@AndroidCalculator,
+                    "error!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                editText.setText("0")
+
+            }else
+            {
+                var result = getResult()
+                var x1 = result.toDouble()
+                x1 = kotlin.math.cos(Math.PI * x1 /180)
+                et = formatResult(x1)
+                editText.setText(et)
+            }
             R.id.button_0 -> {
                 if (et == "0") et = "0" else et += "0"
                 editText.setText(et)
@@ -116,7 +142,8 @@ class AndroidCalculator : AppCompatActivity(), View.OnClickListener {
                 !et.contains("-") &&
                 !et.contains("×") &&
                 !et.contains("÷") &&
-                et.contains("."))
+                et.contains(".")) &&
+                et.contains("sin")
             ) {
                 Toast.makeText(this@AndroidCalculator,
                     "Bad Input!",
@@ -412,5 +439,25 @@ class AndroidCalculator : AppCompatActivity(), View.OnClickListener {
         }
         return stack.pop()
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu,menu)
+        return true
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.send_item -> {
+                Toast.makeText(this,"上传", Toast.LENGTH_LONG).show()
+                val intent = Intent(Intent.ACTION_VIEW)
+
+                intent.setData(Uri.parse("https://github.com/951029426/Calcutator-1"))
+                startActivity(intent)
+            }
+            R.id.quit_item -> Toast.makeText(this,"退出", Toast.LENGTH_LONG).show()
+
+
+        }
+        this.finish();System.exit(0);return true
+    }
 }
