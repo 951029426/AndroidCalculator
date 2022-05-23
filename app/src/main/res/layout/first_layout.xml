@@ -271,6 +271,16 @@
         android:background="@drawable/btn_circle_deepgrey"
         android:text="." />
 
+   <Button
+        android:id="@+id/button_cos"
+        android:textSize="20sp"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="1dp"
+        android:textColor="#FFFFFF"
+        android:layout_margin="7dp"
+        android:background="@drawable/btn_circle_deepgrey"
+        android:text="cos" />
 
 
 
